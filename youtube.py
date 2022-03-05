@@ -16,7 +16,6 @@ class YoutubeAssistant:
         #channel_id = "UCiMr9kBgaBs9--eFW72Ok-A"
         self.channel_list = defaultdict(str)
 
-
     # stores all the videos of a channel in a file
     def get_channel_info(self, channel_id):
 
@@ -82,10 +81,7 @@ class YoutubeAssistant:
 
         print(self.channel_list)
 
-        
-
-        
-
+    # good practice
     def close_socket(self):
         """
         Closes the socket we opened.
