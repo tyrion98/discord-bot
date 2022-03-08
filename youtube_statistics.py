@@ -8,6 +8,7 @@ import os
 
 class YTstats:
 
+
     def __init__(self, api_key, channel_id):
         self.api_key = api_key
         self.channel_id = channel_id
@@ -133,6 +134,13 @@ class YTstats:
 
         # close file
         file.close()
+
+    # close error file
+    def close_file(self):
+        """
+        Close error file.
+        """
+        self.error_file.close()
 
     def dump(self):
         """Dumps channel statistics and video data in a single json file"""

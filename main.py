@@ -31,6 +31,9 @@ youtube = YoutubeAssistant()
 # returns quote from api
 def get_joke():
 
+    """
+    Retrieves a random dad joke from the icanhazdadjoke.com joke api.
+    """
     response = requests.get(url)
     HTML = response.text
     soup = BeautifulSoup(HTML, features="html.parser")
@@ -47,6 +50,9 @@ def get_joke():
 @bot.event
 # calls when bot is ready to be used
 async def on_ready():
+    """
+    First function that is called when a bot is being run.
+    """
     # prints this
     print("We have logged in as {0.user}".format(bot))
 
@@ -54,19 +60,20 @@ async def on_ready():
 
 @bot.event
 async def on_message(msg):
-
+    """
+    Checks every message and responds to a supported command.
+    """
     # triggers each time a msg is received
     # check if msg is from bot
     if msg.author == bot.user:
         return
 
+    print(discord.is_owner(msg.author))
     # else check for command 
     if msg.content.startswith("$joke"):
         # returns msg back to discord
         joke = get_joke()
         await msg.channel.send(joke)
-
-
 
     # ask for help 
     if msg.content.startswith("$ythelp"):
@@ -93,9 +100,26 @@ async def on_message(msg):
 
 # constantly check for a change in channel json files
 def on_change():
+    """
+        Function that checks whether or not a channel has
+        uploaded a video after a given amount of time.
+    """
 
     channels = youtube.get_channels()
     youtube.get_latest_video()
+    youtube.check_json()
+
+# called on exit
+def close():
+    """
+    Closes all the open sockets, bots, and files when program ends.
+    """
+
+    bot.close()
+    print("Bot terminated")
+    youtube.close_socket()
+
 
 bot.run(TOKEN)
 # runs the bot
+
