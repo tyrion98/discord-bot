@@ -1,2 +1,4 @@
-Could not get channel statisticsError! Could not get correct channel data!
- {'error': {'code': 403, 'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'errors': [{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]}}
+Error! Could not get topicDetails part of data: 
+{'kind': 'youtube#videoListResponse', 'etag': 'v_s9yXmexSOQvc3bfF66LcCtuDA', 'items': [{'kind': 'youtube#video', 'etag': 'u7TIE2azwZlCtGMnDCWzVNdA_Ak', 'id': 'svUU4sfm6vs'}], 'pageInfo': {'totalResults': 1, 'resultsPerPage': 1}}Error! Could not get topicDetails part of data: 
+{'kind': 'youtube#videoListResponse', 'etag': 'jAbQkAhBKZ4MgRJzf1CFHXm9Lys', 'items': [{'kind': 'youtube#video', 'etag': 'bd-SSkQVKGe_tSrIAiATmWaJafo', 'id': 'nS3SO31QdJI'}], 'pageInfo': {'totalResults': 1, 'resultsPerPage': 1}}Error! Could not get topicDetails part of data: 
+{'kind': 'youtube#videoListResponse', 'etag': '7Zvurqy_NA12UB2HcTPOHmrwTPU', 'items': [{'kind': 'youtube#video', 'etag': 'R9Kmv9M4MGwNdZ7sHEOnVl-0s1o', 'id': '6l2lCJr0ggk'}], 'pageInfo': {'totalResults': 1, 'resultsPerPage': 1}}

@@ -1,13 +1,25 @@
 {
-    "funny_responses" : [
+  "funny_responses": [
     "KEKEKEKE",
     "Cackling",
-    "HARDY HAR HAR!"
-    ],
-    "funny_words" : [
+    "HARDY HAR HAR!",
+    "😂",
+    "🤣",
+    "lol",
+    "hehe",
+    "haha"
+  ],
 
-        "funny", 
-        "LOL", 
-        "LUL", "HAHA", "LMAO"]
-
+  "funny_words": [
+    "funny",
+    "LOL",
+    "LUL",
+    "HAHA",
+    "LMAO",
+    "ROFL",
+    "😂",
+    "lol",
+    "hehe",
+    "haha"
+  ]
 }

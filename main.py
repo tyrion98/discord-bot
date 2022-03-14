@@ -1,5 +1,6 @@
 import discord
 import requests
+import asyncio
 import json
 import re
 import random
@@ -27,6 +28,9 @@ funny_responses = funny_file['funny_responses']
 
 youtube = YoutubeAssistant()
 
+success_emoji = '👍🏾'
+negative_emoji = '👎🏾'
+
 
 # returns quote from api
 def get_joke():
@@ -47,6 +51,22 @@ def get_joke():
     # return joke
     return joke
 
+# checking
+async def get_new_uploads():
+    """
+    Constantly checks for new uploads for channels in the channel.txt file.
+    """
+    
+    await bot.wait_until_ready() # ensures cache is loaded
+    channel = bot.get_channel(id=892163573948756019) # desired channel -> youtube uploads specific one
+    while not bot.is_closed():
+
+        vids_list = on_change()
+        for vid in vids_list:
+            if vid != "":
+                await channel.send(vid) # only post if new video
+        await asyncio.sleep(300) # 5 minutes
+
 @bot.event
 # calls when bot is ready to be used
 async def on_ready():
@@ -56,7 +76,9 @@ async def on_ready():
     # prints this
     print("We have logged in as {0.user}".format(bot))
 
-    on_change()
+
+    # constantly check every 5 mins for new uploads
+    bot.loop.create_task(get_new_uploads())
 
 @bot.event
 async def on_message(msg):
@@ -68,7 +90,6 @@ async def on_message(msg):
     if msg.author == bot.user:
         return
 
-    print(discord.is_owner(msg.author))
     # else check for command 
     if msg.content.startswith("$joke"):
         # returns msg back to discord
@@ -88,10 +109,15 @@ async def on_message(msg):
         extracted = msg.content.split()
         if len(extracted) == 2:
             channel_id = extracted[1]
-            is_added = youtube.get_channel_info(channel_id)
+            is_added = youtube.update_channel_info(channel_id)
+            if is_added:
+                await msg.add_reaction(success_emoji)
+            else:
+                await msg.add_reaction(negative_emoji)
 
         else:
             await msg.channel.send("Invalid channel id.\nExample: \"$yt {channel_id}\"")
+            await msg.add_reaction(negative_emoji)
 
     # check if any funny words have been said( in msg)
     if any(word in msg.content for word in funny_words):
@@ -107,7 +133,9 @@ def on_change():
 
     channels = youtube.get_channels()
     youtube.get_latest_video()
-    youtube.check_json()
+    new_vids = youtube.check_json()
+    
+    return new_vids
 
 # called on exit
 def close():

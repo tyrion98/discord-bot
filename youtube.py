@@ -23,7 +23,7 @@ class YoutubeAssistant:
         self.channel_names = list()
 
     # stores all the videos of a channel in a file
-    def get_channel_info(self, channel_id):
+    def update_channel_info(self, channel_id):
         """
         Checks if a channel id is valid, if it is then adds it to the supported channels list.
         """
@@ -89,6 +89,20 @@ class YoutubeAssistant:
                     self.channel_names.append(yt.video_data[video]["channelTitle"])
                     break;
 
+
+    # update channel 
+    def update_all_channels(self, new_vids):
+        """ 
+        Updates the channel json files when there's a new upload.
+        """
+        i = 0
+        id_list = list(self.channel_list.keys())
+        for vid in new_vids:
+            if vid != "":
+                self.update_channel_info(id_list[i])
+
+            i+=1 
+
     # check json file
     def check_json(self):
         """
@@ -98,20 +112,41 @@ class YoutubeAssistant:
         to discord.
         """
         i = 0
+        new_video_link = ""
+        new_vids = []
         is_new = None
         for channel in self.channel_names:
             file_name = "./channels/" + channel.lower() + ".json"
             json_file = open(file_name, 'r')
 
             data = json.load(json_file)
-
             # check if latest video == to the most recent video on the channel
             is_new = self.is_new_video(data, i)
+            # if its new retrieve a link and return in this function.
+            # then update channel json file
+            if is_new:
+                new_video_link = self.get_video_link(self.channel_list[i])
+                new_vids.append(new_video_link)
+                
+            else:
+                new_vids.append("")
             # close file 
             json_file.close()
             i+=1
 
-        print(is_new)
+        # call a function that updates the channel.txt file if there's a new video
+        self.update_channel_info(new_vids)
+
+        return new_vids
+
+    # creates a youtube video link
+    def get_video_link(link):
+        """
+        Takes in the end of new video url link,
+        and returns it with the youtube url credentials.
+        """
+
+        return "https://youtube.com/" + link
 
     # check if a change
     def is_new_video(self, data, i):
